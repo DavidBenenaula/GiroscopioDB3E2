@@ -1,124 +1,50 @@
-:root {
-  --primary-blue: #4B6EF6;
-  --light-background: #f0f0f0;
-  --text-dark: #333;
-  --white: #ffffff;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--light-background);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
 .sensor-container {
-  width: 350px;
-  background-color: var(--white);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  text-align: center;
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.sensor-section[data-sensor="Giroscopio"] {
-  margin-top: 0;
+.sensor-section {
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .sensor-section h2 {
-  display: none; /* Ocultamos el título original */
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-bottom: 2px solid #4A6CFF;
+  padding-bottom: 5px;
 }
 
-.sensor-section[data-sensor="Giroscopio"] .sensor-data {
+.sensor-data {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 }
 
-.angle-circle {
-  width: 150px;
-  height: 150px;
-  background-color: var(--primary-blue);
+.sensor-data p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.angle-display {
+  width: 120px;
+  height: 120px;
+  background-color: #4A6CFF;
   border-radius: 50%;
-  margin: 0 auto 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.angle-circle::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  width: 70%;
-  height: 4px;
-  background-color: var(--white);
-  transform-origin: left center;
-  animation: rotate 2s linear infinite;
-}
-
-@keyframes rotate {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.angle-label {
-  color: var(--white);
+  color: white;
   font-size: 24px;
-  font-weight: bold;
-  position: relative;
-  z-index: 10;
-}
-
-.sensor-data p[data-axis="beta"] {
-  display: none; /* Ocultamos los otros ejes */
-}
-
-.sensor-data p[data-axis="gamma"] {
-  display: none; /* Ocultamos los otros ejes */
-}
-
-.sensor-data p[data-axis="alpha"] {
-  font-size: 18px;
-  color: var(--text-dark);
-  margin-top: 20px;
-  position: relative;
-}
-
-.sensor-data p[data-axis="alpha"]::before {
-  content: "Ángulo: ";
-  font-weight: bold;
-}
-
-.data-placeholder {
-  background-color: var(--light-background);
-  height: 50px;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-
-/* Animaciones Interactivas */
-.sensor-data p[data-axis="alpha"] {
-  transition: all 0.3s ease;
-}
-
-.sensor-data p[data-axis="alpha"]:hover {
-  transform: scale(1.05);
-  color: var(--primary-blue);
-}
-
-/* Responsive Design */
-@media (max-width: 400px) {
-  .sensor-container {
-      width: 90%;
-      max-width: 350px;
-  }
+  margin: 0 auto;
 }
