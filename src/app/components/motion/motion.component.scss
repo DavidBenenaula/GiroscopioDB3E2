@@ -1,111 +1,124 @@
-.sensor-container {
+:root {
+  --primary-blue: #4B6EF6;
+  --light-background: #f0f0f0;
+  --text-dark: #333;
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--light-background);
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  perspective: 1000px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.sensor-section {
-  background: white;
-  border-radius: 10px;
-  padding: 1.5rem;
-  width: 45%;
+.sensor-container {
+  width: 350px;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px;
   text-align: center;
-  transition: all 0.4s ease;
-  transform-style: preserve-3d;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
 }
 
-.sensor-section:hover {
-  transform: scale(1.05) rotateY(10deg);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+.sensor-section[data-sensor="Giroscopio"] {
+  margin-top: 0;
 }
 
 .sensor-section h2 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  position: relative;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  display: none; /* Ocultamos el título original */
 }
 
-.sensor-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  width: 50px;
-  height: 3px;
-  background: linear-gradient(to right, #3494e6, #ec6ead);
-  transform: translateX(-50%);
-  border-radius: 2px;
+.sensor-section[data-sensor="Giroscopio"] .sensor-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.sensor-data {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.sensor-data p {
-  background: #f1f3f5;
-  padding: 0.8rem;
-  border-radius: 8px;
-  font-family: 'Consolas', monospace;
-  color: #2c3e50;
+.angle-circle {
+  width: 150px;
+  height: 150px;
+  background-color: var(--primary-blue);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   overflow: hidden;
+}
+
+.angle-circle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 70%;
+  height: 4px;
+  background-color: var(--white);
+  transform-origin: left center;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.angle-label {
+  color: var(--white);
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  z-index: 10;
+}
+
+.sensor-data p[data-axis="beta"] {
+  display: none; /* Ocultamos los otros ejes */
+}
+
+.sensor-data p[data-axis="gamma"] {
+  display: none; /* Ocultamos los otros ejes */
+}
+
+.sensor-data p[data-axis="alpha"] {
+  font-size: 18px;
+  color: var(--text-dark);
+  margin-top: 20px;
+  position: relative;
+}
+
+.sensor-data p[data-axis="alpha"]::before {
+  content: "Ángulo: ";
+  font-weight: bold;
+}
+
+.data-placeholder {
+  background-color: var(--light-background);
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+/* Animaciones Interactivas */
+.sensor-data p[data-axis="alpha"] {
   transition: all 0.3s ease;
 }
 
-.sensor-data p::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: all 0.6s ease;
-}
-
-.sensor-data p:hover {
+.sensor-data p[data-axis="alpha"]:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.sensor-data p:hover::before {
-  left: 100%;
+  color: var(--primary-blue);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   .sensor-container {
-      flex-direction: column;
-      padding: 1rem;
-  }
-
-  .sensor-section {
       width: 90%;
-      margin-bottom: 1rem;
+      max-width: 350px;
   }
-}
-
-/* Animations for Data Changes */
-@keyframes dataChange {
-  0% { background-color: #f1f3f5; }
-  50% { background-color: #e6f2ff; }
-  100% { background-color: #f1f3f5; }
-}
-
-.sensor-data p[data-changed="true"] {
-  animation: dataChange 1s ease;
 }

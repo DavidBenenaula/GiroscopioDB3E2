@@ -1,19 +1,65 @@
-<div class="sensor-container">
-  <div class="sensor-section">
-    <h2>Acelerómetro</h2>
-    <div class="sensor-data">
-      <p>X: {{motionData.acceleration?.x ?? 'No data'}}</p>
-      <p>Y: {{motionData.acceleration?.y ?? 'No data'}}</p>
-      <p>Z: {{motionData.acceleration?.z ?? 'No data'}}</p>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de Ángulos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="sensor-container">
+        <div class="sensor-section" data-sensor="Giroscopio">
+            <h2>Medidor de Ángulos</h2>
+            <div class="sensor-data">
+                <div class="angle-circle">
+                    <div class="angle-label">°</div>
+                </div>
+                <p>Ángulo: <span id="angleValue">31.4°</span></p>
+                <div class="data-placeholder"></div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="sensor-section">
-    <h2>Giroscopio</h2>
-    <div class="sensor-data">
-      <p>Alpha: {{motionData.rotation?.alpha ?? 'No data'}}°</p>
-      <p>Beta: {{motionData.rotation?.beta ?? 'No data'}}°</p>
-      <p>Gamma: {{motionData.rotation?.gamma ?? 'No data'}}°</p>
-    </div>
-  </div>
-</div>
+    <script>
+        // Función para manejar la orientación del dispositivo
+        function handleOrientation(event) {
+            // Usaremos el ángulo beta (inclinación frontal/trasera) como medida principal
+            const angleElement = document.getElementById('angleValue');
+            
+            // Redondear el ángulo a un decimal
+            const roundedAngle = event.beta ? Math.abs(event.beta).toFixed(1) : '0.0';
+            
+            // Actualizar el valor del ángulo
+            angleElement.textContent = `${roundedAngle}°`;
+        }
+
+        // Solicitar permiso para acceder a la orientación del dispositivo
+        function requestPermission() {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response == 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // No iOS 13+ device
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        }
+
+        // Solicitar permiso al cargar la página (para dispositivos iOS)
+        window.addEventListener('load', () => {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                const permissionButton = document.createElement('button');
+                permissionButton.textContent = 'Permitir acceso a la orientación';
+                permissionButton.onclick = requestPermission;
+                document.body.prepend(permissionButton);
+            } else {
+                // Dispositivos no iOS
+                requestPermission();
+            }
+        });
+    </script>
+</body>
+</html>
